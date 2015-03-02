@@ -9,26 +9,28 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@protocol HCSParallaxCarousel <NSObject>
+@protocol HCSParallaxCarouselDelegate <NSObject>
 
 - (NSUInteger)numberOfImagesAvailableForImageScroller:(UIView *)scroller;
 - (id)imageScroller:(UIView *)scroller infoForItemAtIndex:(NSUInteger)index;
-- (void)imageScroller:(UIView *)scroller didSelectImageAtIndex:(NSUInteger)index;
 
 @optional
 
+- (void)imageScroller:(UIView *)scroller didSelectImageAtIndex:(NSUInteger)index;
+- (void)imageScroller:(UIView *)scroller didScrollToHeight:(CGFloat)height;
 - (NSString *)reuseIdentifierForImageScroller:(UIView *)scroller index:(NSUInteger)index;
-- (void)didChangePageAtIndex:(CGFloat)newOffsetX;
+- (void)didChangeToPageAtIndex:(NSInteger)index;
 
 @end
 
 @interface HCSParallaxCarousel : UITableView
 
 @property (nonatomic, strong) UIView *carouselView;
-@property (nonatomic, weak) id<HCSParallaxCarousel> carouselDelgate;
+@property (nonatomic, weak) id<HCSParallaxCarouselDelegate> carouselDelegate;
 @property (nonatomic, readonly) NSUInteger numberOfItems;
 @property (nonatomic, strong) UIPageControl *pageControl;
 
+- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style carouselHeight:(CGFloat)height;
 - (void)reloadCarouselData;
 - (void)scrollToImageAtIndex:(NSUInteger)index animated:(BOOL)animated;
 

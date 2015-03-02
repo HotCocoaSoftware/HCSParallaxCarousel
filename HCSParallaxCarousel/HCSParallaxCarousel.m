@@ -15,29 +15,37 @@ static CGFloat const kPageControlHeight = 30;
 static CGFloat const kMargin = 10.f;
 static NSUInteger const kMaxNumberOfImages = 18;
 
-static CGFloat const kParallaxViewHeight  = 200;
-
 @interface HCSParallaxCarousel () <APParallaxViewDelegate ,UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (strong, nonatomic) NSArray *URLs;
+@property (nonatomic) CGFloat scrollViewTouchLocation;
+@property (nonatomic) CGFloat carouselHeight;
 
 @end
 
 @implementation HCSParallaxCarousel
 
-- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
+- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style carouselHeight:(CGFloat)height {
     self = [super initWithFrame:frame style:style];
     
     if (self) {
+        _carouselHeight = height;
         [self initializeCarouselView];
     }
     
     return self;
 }
 
+- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
+    return [self initWithFrame:frame style:style carouselHeight:200];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    return [self initWithFrame:frame style:UITableViewStylePlain];
+}
+
 - (void)initializeCarouselView {
-    _carouselView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.width, kParallaxViewHeight)];
     [self setCarouselBackgroundColor:[UIColor blackColor]];
     [self setUpCollectionView];
     [self setUpPageControl];
@@ -45,38 +53,23 @@ static CGFloat const kParallaxViewHeight  = 200;
 }
 
 - (void)setUpParallaxView {
-    [self addParallaxWithView:self.carouselView andHeight:kParallaxViewHeight];
+    [self addParallaxWithView:self.carouselView andHeight:self.carouselHeight];
     self.parallaxView.delegate = self;
 }
 
 @synthesize numberOfItems=_numberOfItems;
 
 - (void)setUpCollectionView {
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    flowLayout.itemSize = self.carouselView.bounds.size;
-    flowLayout.minimumInteritemSpacing = 0;
-    flowLayout.minimumLineSpacing = 0;
-    
-    CGRect frame = self.carouselView.bounds;
-    _collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
-    _collectionView.dataSource = self;
-    _collectionView.delegate = self;
-    _collectionView.backgroundColor = [UIColor colorWithRed:204.0/255.0 green:204.0/255.0 blue:204.0/255.0 alpha:1.0];
-    [_collectionView setContentOffset:CGPointZero animated:NO];
-    _collectionView.showsHorizontalScrollIndicator = NO;
-    _collectionView.pagingEnabled = YES;
-    [self.carouselView addSubview:_collectionView];
+    [self.carouselView addSubview:self.collectionView];
     [self.collectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.carouselView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[collectionView]|" options:0 metrics:nil views:@{@"collectionView":_collectionView}]];
-    [self.carouselView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[collectionView]|" options:0 metrics:nil views:@{@"collectionView":_collectionView}]];
+    [self.carouselView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[collectionView]|" options:0 metrics:nil views:@{@"collectionView":self.collectionView}]];
+    [self.carouselView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[collectionView]|" options:0 metrics:nil views:@{@"collectionView":self.collectionView}]];
     
     [self registerCells];
 }
 
 - (void)setUpPageControl {
-    _pageControl = [[UIPageControl alloc] initWithFrame:(CGRect){kMargin, self.carouselView.height - kPageControlHeight, self.carouselView.width - 2 * kMargin, kPageControlHeight}];
-    [self.carouselView addSubview:_pageControl];
+    [self.carouselView addSubview:self.pageControl];
     [self.pageControl setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.carouselView addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControl
                                                                   attribute:NSLayoutAttributeCenterX
@@ -93,8 +86,8 @@ static CGFloat const kParallaxViewHeight  = 200;
                                                                  multiplier:1
                                                                    constant:0]];
     
-    _pageControl.enabled = NO;
-    _pageControl.hidden = YES;
+    self.pageControl.enabled = NO;
+    self.pageControl.hidden = YES;
 }
 
 - (void)registerCells {
@@ -102,7 +95,7 @@ static CGFloat const kParallaxViewHeight  = 200;
 }
 
 - (void)registerClass:(Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier {
-    [_collectionView registerClass:cellClass forCellWithReuseIdentifier:identifier];
+    [self.collectionView registerClass:cellClass forCellWithReuseIdentifier:identifier];
 }
 
 - (Class)reusableCellClass {
@@ -111,10 +104,10 @@ static CGFloat const kParallaxViewHeight  = 200;
 
 - (void)scrollToImageAtIndex:(NSUInteger)index animated:(BOOL)animated {
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-    [_collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:animated];
+    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:animated];
 }
 
-#pragma mark - UICollectionViewDataSource methods
+#pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -127,7 +120,7 @@ static CGFloat const kParallaxViewHeight  = 200;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     NSString *reuseIdentifier = [self reuseIdentifierForIndexPath:indexPath];
     HCSImageScrollerCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    [cell configureWithInfo:[self.carouselDelgate imageScroller:self infoForItemAtIndex:indexPath.item]];
+    [cell configureWithInfo:[self.carouselDelegate imageScroller:self.carouselView infoForItemAtIndex:indexPath.item]];
     
     return cell;
 }
@@ -139,21 +132,21 @@ static CGFloat const kParallaxViewHeight  = 200;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self.carouselDelgate imageScroller:self didSelectImageAtIndex:indexPath.row];
+    [self.carouselDelegate imageScroller:self.carouselView didSelectImageAtIndex:indexPath.row];
 }
 
 - (NSString *)reuseIdentifierForIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(reuseIdentifierForImageScroller:index:)]) {
-        return [self.carouselDelgate reuseIdentifierForImageScroller:self index:indexPath.item];
+        return [self.carouselDelegate reuseIdentifierForImageScroller:self index:indexPath.item];
     } else {
         return NSStringFromClass([self reusableCellClass]);
     }
 }
 
 - (NSUInteger)numberOfItems {
-    NSUInteger numberOfAvailableImages = [self.carouselDelgate numberOfImagesAvailableForImageScroller:self];
+    NSUInteger numberOfAvailableImages = [self.carouselDelegate numberOfImagesAvailableForImageScroller:self];
     
-    if ([_pageControl sizeForNumberOfPages:numberOfAvailableImages].width < (self.width - 2 * kMargin)) {
+    if ([self.pageControl sizeForNumberOfPages:numberOfAvailableImages].width < (self.width - 2 * kMargin)) {
         _numberOfItems = numberOfAvailableImages;
     } else {
         _numberOfItems = kMaxNumberOfImages;
@@ -163,34 +156,84 @@ static CGFloat const kParallaxViewHeight  = 200;
 }
 
 - (void)reloadCarouselData {
-    _pageControl.numberOfPages = [self numberOfItems];
-    _pageControl.currentPage = 0;
-    _pageControl.hidden = NO;
+    self.pageControl.numberOfPages = [self numberOfItems];
+    self.pageControl.currentPage = 0;
+    self.pageControl.hidden = NO;
     
     [self.collectionView reloadData];
 }
 
+#pragma mark - UIScrollViewDelegate
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat pageWidth = _collectionView.width;
-    float fractionalPage = _collectionView.contentOffset.x / pageWidth;
+    CGFloat pageWidth = self.collectionView.width;
+    float fractionalPage = self.collectionView.contentOffset.x / pageWidth;
     NSInteger page = lround(fractionalPage);
-    self.pageControl.currentPage = page;
     
-    if ([self.carouselDelgate respondsToSelector:@selector(didChangePageAtIndex:)]) {
-        [self.carouselDelgate didChangePageAtIndex:_collectionView.contentOffset.x];
+    if ([self.carouselDelegate respondsToSelector:@selector(didChangeToPageAtIndex:)]) {
+        if (self.pageControl.currentPage != page) {
+            self.pageControl.currentPage = page;
+            [self.carouselDelegate didChangeToPageAtIndex:page];
+        }
     }
 }
 
 #pragma mark - APParallaxViewDelegate
 
 - (void)parallaxView:(APParallaxView *)view didChangeFrame:(CGRect)frame {
+    if (frame.size.height < 200) {
+        return;
+    }
     [self.collectionView.collectionViewLayout invalidateLayout];
+    if ([self.carouselDelegate respondsToSelector:@selector(imageScroller:didScrollToHeight:)] && self.scrollViewTouchLocation < self.carouselHeight) {
+        [self.carouselDelegate imageScroller:self.carouselView didScrollToHeight:frame.size.height];
+    }
 }
 
-#pragma mark - Customize methods
+#pragma mark - Customize Methods
 
 - (void)setCarouselBackgroundColor:(UIColor *)backgroundColor {
     [self.carouselView setBackgroundColor:backgroundColor];
+}
+
+#pragma mark - Lazy Initializers
+
+- (UIView *)carouselView {
+    if (!_carouselView) {
+        _carouselView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.carouselHeight)];
+    }
+    
+    return _carouselView;
+}
+
+- (UIPageControl *)pageControl {
+    if (!_pageControl) {
+        CGRect frame = CGRectMake(kMargin, self.carouselView.height - kPageControlHeight, self.carouselView.width - 2 * kMargin, kPageControlHeight);
+        _pageControl = [[UIPageControl alloc] initWithFrame:frame];
+    }
+    
+    return _pageControl;
+}
+
+- (UICollectionView *)collectionView {
+    if (!_collectionView) {
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        flowLayout.itemSize = self.carouselView.bounds.size;
+        flowLayout.minimumInteritemSpacing = 0;
+        flowLayout.minimumLineSpacing = 0;
+        
+        CGRect frame = self.carouselView.bounds;
+        _collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+        _collectionView.backgroundColor = [UIColor colorWithRed:204.0/255.0 green:204.0/255.0 blue:204.0/255.0 alpha:1.0];
+        [_collectionView setContentOffset:CGPointZero animated:NO];
+        _collectionView.showsHorizontalScrollIndicator = NO;
+        _collectionView.pagingEnabled = YES;
+    }
+
+    return _collectionView;
 }
 
 @end

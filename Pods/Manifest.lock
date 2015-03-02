@@ -23,6 +23,11 @@ PODS:
   - APParallaxHeader (0.1.6)
   - DACircularProgress (2.2.0)
   - FrameAccessor (2.0)
+  - IDMPhotoBrowser (1.5.2):
+    - AFNetworking
+    - DACircularProgress
+    - pop
+  - pop (1.0.7)
   - XLRemoteImageView (2.0.0):
     - AFNetworking (~> 2.0)
 
@@ -31,6 +36,7 @@ DEPENDENCIES:
   - APParallaxHeader
   - DACircularProgress
   - FrameAccessor
+  - IDMPhotoBrowser
   - XLRemoteImageView
 
 SPEC CHECKSUMS:
@@ -38,6 +44,8 @@ SPEC CHECKSUMS:
   APParallaxHeader: 6e7cc27c052be34e1a5655dc2fab6c40eecbbe55
   DACircularProgress: 3b41941891a56dc6aa17971f5322a9a38a6f446e
   FrameAccessor: a4cbd52f4ce74d9c3338dd7db9707fb35a71af71
+  IDMPhotoBrowser: 9639f7c57bdf942dc4e214ff9d8108e08ebd3f27
+  pop: 2f14a1ea61339767af9e66741b418c831b3844df
   XLRemoteImageView: 894947d21f701ba47f59d2435a638c34d8cd88bc
 
 COCOAPODS: 0.36.0.rc.1

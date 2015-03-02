@@ -66,9 +66,21 @@
 #define COCOAPODS_VERSION_MINOR_FrameAccessor 0
 #define COCOAPODS_VERSION_PATCH_FrameAccessor 0
 
+// IDMPhotoBrowser
+#define COCOAPODS_POD_AVAILABLE_IDMPhotoBrowser
+#define COCOAPODS_VERSION_MAJOR_IDMPhotoBrowser 1
+#define COCOAPODS_VERSION_MINOR_IDMPhotoBrowser 5
+#define COCOAPODS_VERSION_PATCH_IDMPhotoBrowser 2
+
 // XLRemoteImageView
 #define COCOAPODS_POD_AVAILABLE_XLRemoteImageView
 #define COCOAPODS_VERSION_MAJOR_XLRemoteImageView 2
 #define COCOAPODS_VERSION_MINOR_XLRemoteImageView 0
 #define COCOAPODS_VERSION_PATCH_XLRemoteImageView 0
+
+// pop
+#define COCOAPODS_POD_AVAILABLE_pop
+#define COCOAPODS_VERSION_MAJOR_pop 1
+#define COCOAPODS_VERSION_MINOR_pop 0
+#define COCOAPODS_VERSION_PATCH_pop 7
 
