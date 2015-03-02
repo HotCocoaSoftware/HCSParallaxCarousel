@@ -14,6 +14,10 @@
 		5DBD7F0F1AA45CF90017ED75 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DBD7F0E1AA45CF90017ED75 /* Images.xcassets */; };
 		5DBD7F121AA45CF90017ED75 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DBD7F101AA45CF90017ED75 /* LaunchScreen.xib */; };
 		5DBD7F1E1AA45CF90017ED75 /* HCSParallaxCarouselTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBD7F1D1AA45CF90017ED75 /* HCSParallaxCarouselTests.m */; };
+		5DBD7F2A1AA45E020017ED75 /* HCSParallaxCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBD7F291AA45E020017ED75 /* HCSParallaxCarousel.m */; };
+		5DBD7F2F1AA4615E0017ED75 /* HCSImageScrollerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBD7F2C1AA4615E0017ED75 /* HCSImageScrollerCell.m */; };
+		5DBD7F301AA4615E0017ED75 /* UIImageView+HCSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBD7F2E1AA4615E0017ED75 /* UIImageView+HCSAdditions.m */; };
+		855CA1FE87B55B803E329A7A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF6CB1A26CA59B0C9D2EF8CA /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1FAD92244CC36B8C4ED891A0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5DBD7EFE1AA45CF90017ED75 /* HCSParallaxCarousel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HCSParallaxCarousel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DBD7F021AA45CF90017ED75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5DBD7F031AA45CF90017ED75 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -40,6 +45,14 @@
 		5DBD7F171AA45CF90017ED75 /* HCSParallaxCarouselTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HCSParallaxCarouselTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DBD7F1C1AA45CF90017ED75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5DBD7F1D1AA45CF90017ED75 /* HCSParallaxCarouselTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCSParallaxCarouselTests.m; sourceTree = "<group>"; };
+		5DBD7F281AA45E020017ED75 /* HCSParallaxCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCSParallaxCarousel.h; sourceTree = "<group>"; };
+		5DBD7F291AA45E020017ED75 /* HCSParallaxCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCSParallaxCarousel.m; sourceTree = "<group>"; };
+		5DBD7F2B1AA4615E0017ED75 /* HCSImageScrollerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCSImageScrollerCell.h; sourceTree = "<group>"; };
+		5DBD7F2C1AA4615E0017ED75 /* HCSImageScrollerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCSImageScrollerCell.m; sourceTree = "<group>"; };
+		5DBD7F2D1AA4615E0017ED75 /* UIImageView+HCSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+HCSAdditions.h"; sourceTree = "<group>"; };
+		5DBD7F2E1AA4615E0017ED75 /* UIImageView+HCSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+HCSAdditions.m"; sourceTree = "<group>"; };
+		6C0B11509E78355E08A0CDC0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		FF6CB1A26CA59B0C9D2EF8CA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				855CA1FE87B55B803E329A7A /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +74,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		17A8C9AC54A4E16E25FEC62A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FF6CB1A26CA59B0C9D2EF8CA /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5D2759351B497E94240D5779 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1FAD92244CC36B8C4ED891A0 /* Pods.debug.xcconfig */,
+				6C0B11509E78355E08A0CDC0 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		5DBD7EF51AA45CF90017ED75 = {
 			isa = PBXGroup;
 			children = (
@@ -68,6 +99,8 @@
 				5DBD7F011AA45CF90017ED75 /* Supporting Files */,
 				5DBD7F1A1AA45CF90017ED75 /* HCSParallaxCarouselTests */,
 				5DBD7EFF1AA45CF90017ED75 /* Products */,
+				5D2759351B497E94240D5779 /* Pods */,
+				17A8C9AC54A4E16E25FEC62A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,6 +116,12 @@
 		5DBD7F001AA45CF90017ED75 /* HCSParallaxCarousel */ = {
 			isa = PBXGroup;
 			children = (
+				5DBD7F2B1AA4615E0017ED75 /* HCSImageScrollerCell.h */,
+				5DBD7F2C1AA4615E0017ED75 /* HCSImageScrollerCell.m */,
+				5DBD7F2D1AA4615E0017ED75 /* UIImageView+HCSAdditions.h */,
+				5DBD7F2E1AA4615E0017ED75 /* UIImageView+HCSAdditions.m */,
+				5DBD7F281AA45E020017ED75 /* HCSParallaxCarousel.h */,
+				5DBD7F291AA45E020017ED75 /* HCSParallaxCarousel.m */,
 			);
 			path = HCSParallaxCarousel;
 			sourceTree = "<group>";
@@ -136,9 +175,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5DBD7F211AA45CF90017ED75 /* Build configuration list for PBXNativeTarget "HCSParallaxCarousel" */;
 			buildPhases = (
+				303B9AB31DF10C55074DE6A4 /* Check Pods Manifest.lock */,
 				5DBD7EFA1AA45CF90017ED75 /* Sources */,
 				5DBD7EFB1AA45CF90017ED75 /* Frameworks */,
 				5DBD7EFC1AA45CF90017ED75 /* Resources */,
+				A2C2830397B29E652F8F3BDC /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -225,14 +266,50 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		303B9AB31DF10C55074DE6A4 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A2C2830397B29E652F8F3BDC /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		5DBD7EFA1AA45CF90017ED75 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DBD7F2F1AA4615E0017ED75 /* HCSImageScrollerCell.m in Sources */,
 				5DBD7F0A1AA45CF90017ED75 /* ViewController.m in Sources */,
+				5DBD7F2A1AA45E020017ED75 /* HCSParallaxCarousel.m in Sources */,
 				5DBD7F071AA45CF90017ED75 /* AppDelegate.m in Sources */,
 				5DBD7F041AA45CF90017ED75 /* main.m in Sources */,
+				5DBD7F301AA4615E0017ED75 /* UIImageView+HCSAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +429,7 @@
 		};
 		5DBD7F221AA45CF90017ED75 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1FAD92244CC36B8C4ED891A0 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = HCSParallaxCarousel/Info.plist;
@@ -362,6 +440,7 @@
 		};
 		5DBD7F231AA45CF90017ED75 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C0B11509E78355E08A0CDC0 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = HCSParallaxCarousel/Info.plist;
@@ -423,6 +502,7 @@
 				5DBD7F231AA45CF90017ED75 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5DBD7F241AA45CF90017ED75 /* Build configuration list for PBXNativeTarget "HCSParallaxCarouselTests" */ = {
 			isa = XCConfigurationList;
@@ -431,6 +511,7 @@
 				5DBD7F261AA45CF90017ED75 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
