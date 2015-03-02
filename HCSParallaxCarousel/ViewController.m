@@ -18,6 +18,7 @@ static CGFloat const kCarouselHeight = 200;
 @property (nonatomic, strong) HCSParallaxCarousel *tableView;
 @property (nonatomic) CGFloat scrollViewTouchLocation;
 @property (nonatomic) NSInteger scrollerImageIndex;
+@property (nonatomic) BOOL isIDMOpened;
 
 @end
 
@@ -25,6 +26,7 @@ static CGFloat const kCarouselHeight = 200;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    _isIDMOpened = NO;
     [self configureTableView];
 }
 
@@ -37,7 +39,6 @@ static CGFloat const kCarouselHeight = 200;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.tableView reloadCarouselData];
-    
     _scrollerImageIndex = 0;
     
     //set YES to hide Page Control on Carousel View
@@ -104,16 +105,23 @@ static CGFloat const kCarouselHeight = 200;
     [self.tableView scrollToImageAtIndex:index animated:YES];
 }
 
+- (void)photoBrowser:(IDMPhotoBrowser *)photoBrowser didDismissAtPageIndex:(NSUInteger)index {
+    self.isIDMOpened = NO;
+}
+
 #pragma mark - Helper Methods
 
 - (void)openIDMBroswerWithView:(UIView *)view {
-    IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:self.urls animatedFromView:view];
-    [browser setInitialPageIndex:self.scrollerImageIndex];
-    browser.displayActionButton = NO;
-    browser.displayArrowButton = YES;
-    browser.displayCounterLabel = YES;
-    browser.delegate = self;
-    [self presentViewController:browser animated:YES completion:nil];
+    if (self.isIDMOpened == NO) {
+        IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:self.urls animatedFromView:view];
+        [browser setInitialPageIndex:self.scrollerImageIndex];
+        browser.displayActionButton = NO;
+        browser.displayArrowButton = YES;
+        browser.displayCounterLabel = YES;
+        browser.delegate = self;
+        self.isIDMOpened = YES;
+        [self presentViewController:browser animated:YES completion:nil];        
+    }
 }
 
 - (NSArray *)urls {
