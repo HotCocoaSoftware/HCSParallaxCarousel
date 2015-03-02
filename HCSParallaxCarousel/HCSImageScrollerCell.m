@@ -20,12 +20,30 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _imageView = [[UIImageView alloc] initWithFrame:frame];
         [self.contentView addSubview:_imageView];
         self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
         [self setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[imageView]|" options:0 metrics:nil views:@{@"imageView":_imageView}]];
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[imageView]|" options:0 metrics:nil views:@{@"imageView":_imageView}]];
+        
+        CGFloat ratio = frame.size.width / frame.size.height;
+        NSLayoutConstraint *aspectConstraint = [NSLayoutConstraint constraintWithItem:self.imageView
+                                                                            attribute:NSLayoutAttributeWidth
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:self.imageView
+                                                                            attribute:NSLayoutAttributeHeight
+                                                                           multiplier:ratio
+                                                                             constant:0];
+        aspectConstraint.priority = 1000;
+        NSLayoutConstraint *centeredConstraint = [NSLayoutConstraint constraintWithItem:self.imageView
+                                                                              attribute:NSLayoutAttributeCenterX
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:self
+                                                                              attribute:NSLayoutAttributeCenterX
+                                                                             multiplier:1
+                                                                               constant:0];
+        aspectConstraint.priority = 1000;
+        [self addConstraints:@[aspectConstraint, centeredConstraint]];
         
         _progressView = [[DACircularProgressView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 40.0f, 40.0f)];
         _progressView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
