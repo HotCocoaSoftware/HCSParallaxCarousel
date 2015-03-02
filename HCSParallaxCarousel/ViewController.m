@@ -36,8 +36,12 @@ static CGFloat const kCarouselHeight = 200;
     self.tableView.carouselDelegate = self;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    _scrollerImageIndex = 0;
     [self.tableView reloadCarouselData];
+    
+    _scrollerImageIndex = 0;
+    
+    //set YES to hide Page Control on Carousel View
+    self.tableView.hidePageControl = NO;
 }
 
 #pragma mark - HCSCarouselDelegate
@@ -56,12 +60,12 @@ static CGFloat const kCarouselHeight = 200;
 }
 
 - (void)imageScroller:(UIView *)scroller didSelectImageAtIndex:(NSUInteger)index {
-    [self openIdmBroswerWithView:scroller];
+    [self openIDMBroswerWithView:scroller];
 }
 
 - (void)imageScroller:(UIView *)scroller didScrollToHeight:(CGFloat)height {
     if (height > (kCarouselHeight + 100) && self.scrollViewTouchLocation < 150) {
-        [self openIdmBroswerWithView:scroller];
+        [self openIDMBroswerWithView:scroller];
     }
 }
 
@@ -102,7 +106,7 @@ static CGFloat const kCarouselHeight = 200;
 
 #pragma mark - Helper Methods
 
-- (void)openIdmBroswerWithView:(UIView *)view {
+- (void)openIDMBroswerWithView:(UIView *)view {
     IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:self.urls animatedFromView:view];
     [browser setInitialPageIndex:self.scrollerImageIndex];
     browser.displayActionButton = NO;

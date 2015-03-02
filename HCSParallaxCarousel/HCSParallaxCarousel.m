@@ -26,11 +26,15 @@ static NSUInteger const kMaxNumberOfImages = 18;
 
 @implementation HCSParallaxCarousel
 
+@synthesize numberOfItems=_numberOfItems;
+
+#pragma mark - Initializers
+
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style carouselHeight:(CGFloat)height {
     self = [super initWithFrame:frame style:style];
     
     if (self) {
-        _carouselHeight = height;
+        _carouselHeight = height > kPageControlHeight ? height : kPageControlHeight;
         [self initializeCarouselView];
     }
     
@@ -52,12 +56,12 @@ static NSUInteger const kMaxNumberOfImages = 18;
     [self setUpParallaxView];
 }
 
+#pragma mark - Carousel Set Up
+
 - (void)setUpParallaxView {
     [self addParallaxWithView:self.carouselView andHeight:self.carouselHeight];
     self.parallaxView.delegate = self;
 }
-
-@synthesize numberOfItems=_numberOfItems;
 
 - (void)setUpCollectionView {
     [self.carouselView addSubview:self.collectionView];
@@ -90,6 +94,8 @@ static NSUInteger const kMaxNumberOfImages = 18;
     self.pageControl.hidden = YES;
 }
 
+#pragma mark - Custom Cell
+
 - (void)registerCells {
     [self registerClass:[self reusableCellClass] forCellWithReuseIdentifier:NSStringFromClass([self reusableCellClass])];
 }
@@ -100,11 +106,6 @@ static NSUInteger const kMaxNumberOfImages = 18;
 
 - (Class)reusableCellClass {
     return [HCSImageScrollerCell class];
-}
-
-- (void)scrollToImageAtIndex:(NSUInteger)index animated:(BOOL)animated {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:animated];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -132,8 +133,18 @@ static NSUInteger const kMaxNumberOfImages = 18;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self.carouselDelegate imageScroller:self.carouselView didSelectImageAtIndex:indexPath.row];
+    if ([self.carouselDelegate respondsToSelector:@selector(imageScroller:didSelectImageAtIndex:)]) {
+        [self.carouselDelegate imageScroller:self.carouselView didSelectImageAtIndex:indexPath.row];
+    }
 }
+
+#pragma mark - Setter
+
+- (void)setHidePageControl:(BOOL)hidePageControl {
+    self.pageControl.hidden = hidePageControl;
+}
+
+#pragma mark - Other Methods
 
 - (NSString *)reuseIdentifierForIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(reuseIdentifierForImageScroller:index:)]) {
@@ -141,6 +152,11 @@ static NSUInteger const kMaxNumberOfImages = 18;
     } else {
         return NSStringFromClass([self reusableCellClass]);
     }
+}
+
+- (void)scrollToImageAtIndex:(NSUInteger)index animated:(BOOL)animated {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:animated];
 }
 
 - (NSUInteger)numberOfItems {
@@ -172,10 +188,10 @@ static NSUInteger const kMaxNumberOfImages = 18;
     
     if ([self.carouselDelegate respondsToSelector:@selector(didChangeToPageAtIndex:)]) {
         if (self.pageControl.currentPage != page) {
-            self.pageControl.currentPage = page;
             [self.carouselDelegate didChangeToPageAtIndex:page];
         }
     }
+    self.pageControl.currentPage = page;
 }
 
 #pragma mark - APParallaxViewDelegate

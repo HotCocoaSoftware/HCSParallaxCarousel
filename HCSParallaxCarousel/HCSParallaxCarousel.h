@@ -29,11 +29,11 @@
 @property (nonatomic, weak) id<HCSParallaxCarouselDelegate> carouselDelegate;
 @property (nonatomic, readonly) NSUInteger numberOfItems;
 @property (nonatomic, strong) UIPageControl *pageControl;
+@property (nonatomic) BOOL hidePageControl;
 
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style carouselHeight:(CGFloat)height;
 - (void)reloadCarouselData;
 - (void)scrollToImageAtIndex:(NSUInteger)index animated:(BOOL)animated;
-
 - (void)registerClass:(Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier;
 - (void)registerCells;
 - (Class)reusableCellClass;
